@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+<style>
+
+@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+.main-container {
+    font-family: "Roboto";
+}
+
+.wiki-search-header {
+    border-style: solid;
+    border-width: 2px;
+    border-color: #000000;
+    padding-top: 30px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    margin-bottom: 40px;
+}
+
+.wiki-logo {
+    width: 150px;
+    margin-bottom: 30px;
+}
+
+.search-input {
+    font-size: 18px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: blue;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+.search-results {
+    width: 100%;
+    padding-left: 20px;
+}
+
+.result-item {
+    margin-bottom: 20px;
+}
+
+.result-title {
+    font-size: 22px;
+}
+
+.link-description {
+    color: #444444;
+    font-size: 15px;
+}
+
+.result-url {
+    color: #006621;
+    text-decoration: none;
+}
+
+.dev {
+    font-style: italic;
+    font-weight: bolder;
+}
+
+</style>
+
+
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="wiki-search-header text-center">
+		<H3 align="center"><b><u> WIKI SEARCH ENGINE </u></b> </H3>
+		<h6 align="right">- Updated wikipedia anytime</h6>
+            <img class="wiki-logo" src="data:image/jpeg;base64,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" />
+            
+            <input id="searchInput" placeholder="Type a keyword and press Enter to search" type="search" class="search-input w-100" />
+        </div>
+        <div class="d-none" id="spinner">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                </div>
+            </div>
+        </div>
+        <div id="searchResults" class="search-results"></div>
+    </div>
+
+<script>
+let inputEl = document.getElementById("searchInput");
+let displayEl = document.getElementById("searchResults");
+let spinEl = document.getElementById("spinner");
+
+let options = {
+    method: "GET"
+};
+
+
+function createAndAppend(result) {
+    let {
+        link,
+        title,
+        description
+    } = result;
+
+    let resultEl = document.createElement("div");
+    resultEl.classList.add("result-item");
+
+    let titleEl = document.createElement("a");
+    titleEl.href = link;
+    titleEl.classList.add("result-title");
+    titleEl.target = "_blank";
+    titleEl.textContent = title;
+    resultEl.appendChild(titleEl);
+
+    let brEl = document.createElement("br");
+    resultEl.appendChild(brEl);
+
+    let linkEl = document.createElement("a");
+    linkEl.href = link;
+    linkEl.target = "_blank";
+    linkEl.classList.add("result-url");
+    linkEl.textContent = link;
+    resultEl.appendChild(linkEl);
+
+    let linebrEl = document.createElement("br");
+    resultEl.appendChild(linebrEl);
+
+    let descEl = document.createElement("p");
+    descEl.textContent = description;
+    descEl.classList.add("link-description");
+    resultEl.appendChild(descEl);
+
+    displayEl.appendChild(resultEl);
+
+}
+
+function displayResults(search_results) {
+    spinEl.classList.add("d-none");
+
+    for (let result of search_results) {
+        createAndAppend(result);
+    }
+}
+
+
+function resultDisplay(event) {
+    if (event.key === "Enter") {
+        displayEl.textContent = "";
+        spinEl.classList.remove("d-none");
+
+        let url = "https://apis.ccbp.in/wiki-search?search=" + inputEl.value;
+
+
+        fetch(url, options)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(jsonData) {
+                let {
+                    search_results
+                } = jsonData;
+                displayResults(search_results);
+            });
+
+    }
+}
+
+
+
+inputEl.addEventListener("keydown", resultDisplay);
+
+
+</script>
+
+
+</body>
+
+</html>
