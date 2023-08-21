@@ -1,4 +1,4 @@
-**Explore WiKIWord Meta Search Engine**
+**Explore WiKiWord Meta Search Engine**
 
 
 Explore WiKiWord is also a unique type of search engine 
