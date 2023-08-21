@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+<style>
+
+@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+
+    
+
+.wiki-search-header {
+font-family: "Monotype Corsiva";
+    border-style: solid;
+    border-width: 3px;
+    border-color: #ff0000;
+    padding-top: 30px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    margin-bottom: 40px;
+}
+
+.wiki-logo {
+    width: 150px;
+    margin-bottom: 30px;
+}
+
+.search-input {
+font-family: "Verdana";
+    font-size: 20px;
+    border-style: solid;
+    border-width: 4px;
+    border-color: blue;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+.search-results {
+    width: 100%;
+    padding-left: 20px;
+}
+
+.result-item {
+    margin-bottom: 20px;
+}
+
+.result-title {
+    font-size: 22px;
+}
+
+.link-description {
+    color: #444444;
+    font-size: 15px;
+}
+
+.result-url {
+    color: #006621;
+    text-decoration: none;
+}
+
+.dev {
+    font-style: italic;
+    font-weight: bolder;
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+</style>
+    <div class="main-container">
+        <div class="wiki-search-header text-center">
+
+		<H1 align="center"><b> EXPLORE WiKiWORD </b> </H1>
+
+		<h6 align="right"><b>- Get access to updated wikipedia anytime</b></h6>
+            
+		<img class="wiki-logo" src="wikiwordlogo.jpg" height="200" width="450"/>
+
+<marquee direction=right>
+
+<h4 ><b>*** Exclusive WiKi in your hands ***</b></h4>
+
+</marquee>
+            <input id="searchInput" placeholder="Type a keyword and press Enter to search" type="search" class="search-input w-100" />
+        
+</div>
+
+        <div class="d-none" id="spinner">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                </div>
+            </div>
+        </div>
+        <div id="searchResults" class="search-results"></div>
+    </div>
+
+<script>
+let inputEl = document.getElementById("searchInput");
+let displayEl = document.getElementById("searchResults");
+let spinEl = document.getElementById("spinner");
+
+let options = {
+    method: "GET"
+};
+
+
+function createAndAppend(result) {
+    let {
+        link,
+        title,
+        description
+    } = result;
+
+    let resultEl = document.createElement("div");
+    resultEl.classList.add("result-item");
+
+    let titleEl = document.createElement("a");
+    titleEl.href = link;
+    titleEl.classList.add("result-title");
+    titleEl.target = "_blank";
+    titleEl.textContent = title;
+    resultEl.appendChild(titleEl);
+
+    let brEl = document.createElement("br");
+    resultEl.appendChild(brEl);
+
+    let linkEl = document.createElement("a");
+    linkEl.href = link;
+    linkEl.target = "_blank";
+    linkEl.classList.add("result-url");
+    linkEl.textContent = link;
+    resultEl.appendChild(linkEl);
+
+    let linebrEl = document.createElement("br");
+    resultEl.appendChild(linebrEl);
+
+    let descEl = document.createElement("p");
+    descEl.textContent = description;
+    descEl.classList.add("link-description");
+    resultEl.appendChild(descEl);
+
+    displayEl.appendChild(resultEl);
+
+}
+
+function displayResults(search_results) {
+    spinEl.classList.add("d-none");
+
+    for (let result of search_results) {
+        createAndAppend(result);
+    }
+}
+
+
+function resultDisplay(event) {
+    if (event.key === "Enter") {
+        displayEl.textContent = "";
+        spinEl.classList.remove("d-none");
+
+        let url = "https://apis.ccbp.in/wiki-search?search=" + inputEl.value;
+
+
+        fetch(url, options)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(jsonData) {
+                let {
+                    search_results
+                } = jsonData;
+                displayResults(search_results);
+            });
+
+    }
+}
+
+
+
+inputEl.addEventListener("keydown", resultDisplay);
+
+
+</script>
+
+
+</body>
+
+</html>
